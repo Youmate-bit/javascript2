@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Página Web Semántica</title>
+    <style>
+        #resultados {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div id="resultados"></div>
+
+    <script>
+        // Obtener el elemento div donde se mostrarán los resultados
+        const resultadosDiv = document.getElementById('resultados');
+
+        // 1. Función flecha básica
+        const saludar = nombre => `Hola, ${nombre}!`;
+        const resultadoSaludo = saludar("Mundo");
+
+        // 2. Función flecha con múltiples parámetros y cuerpo de bloque
+        const sumar = (a, b) => a + b;
+        const resultadoSuma = sumar(3, 5);
+
+        // 3. Función flecha como callback en un array
+        const numeros = [1, 2, 3, 4, 5];
+        const numerosDobles = numeros.map(numero => numero * 2);
+
+        // 4. Función flecha dentro de un objeto (valor de 'this')
+        const persona = {
+            nombre: "Juan",
+            saludar: () => {
+                return `Hola, soy ${this.nombre}`;
+            }
+        };
+        const resultadoPersona = persona.saludar();
+
+        // 5. Función anónima como IIFE
+        // (El resultado de esta función no se almacena en una variable)
+
+        // Asignar todos los resultados al div de una sola vez
+        resultadosDiv.textContent = `
+            Saludo: ${resultadoSaludo}
+            Suma: ${resultadoSuma}
+            Números dobles: ${numerosDobles}
+            Persona: ${resultadoPersona}
+            Esta es una función anónima invocada inmediatamente
+        `;
+    </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!--Ejercicio simulacion de un juego de cartas
+
+Objetivo:
+Crear un juego de cartas simplificado utilizando
+funciones flecha, funciones anonimas y this.
+El juego consistira
+
+en un mazo de cartas (representado como un array)
+y una funcion para robar una carta.
+
+Instrucciones 
+1-Crear un mazo de cartasa
+a- Utiliza un array para representar el mazo.
+b- Cada carta sera un objeto con lkas propiedades palo
+(corazones, diamantes, treboles, picas)
+y valor (As, 2, 3, ..., 10, J, Q, K).
+c- Mezcla el mazo aleatoriamente usando un algoritmo de barajado.
+
+2- Crear una funcion para robar una carta:
+Utiliza una funcion flecha para robar la ultima carta del mazo.
+Asegurate de eliminar la carta robada del mazo.
+
+3- Crear un jugador:
+Cada jugador tendra un nombre y un mazo (inicialmente vacio).
+Utiliza this dentro de un metodo para robar una carta y agregarla al mazo del jugador.
+
+4- Simular una partida:
+crea dos jugadores.
+Cada jugador roba una carta.
+Compara los valores de las cartas y determina el ganador.-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego de Cartas</title>
+</head>
+<body>
+  EJECUTA EL EJERCICIO VARIAS VECES, PARA QUE OBSERVEN QUE LOS RESULTADOS CAMBIAN
+
+  <div id="resultado"></div>
+
+  <script>
+    //crear un mazo de cartas
+    const crearMazo = () => {
+      const palos = ['corazones', 'diamantes', 'treboles', 'picas'];
+      const valores = ['As', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K'];
+      let mazo =[];
+
+      palos.forEach(palo => {
+        valores.forEach(valor => {
+          mazo.push({palo, valor});
+        });
+      });
+
+      //Funcion para mezclar el mazo (algoritmo de Fisher-Yates)
+      function mezclar(array) {
+        for (let i = array.length - 1; i > 0; i--){
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+      mezclar(mazo);
+      return mazo;
+    };
+
+    //Crear un jugador
+    class Jugador {
+      constructor(nombre) {
+        this.nombre = nombre;
+        this.mazo = [];
+      }
+
+      robarCarta(mazo) {
+        this.mazo.push(mazo.pop());
+      }
+    }
+
+    // Simular una partida
+    const mazo = crearMazo();
+    const jugador1 = new Jugador('Jugador 1');
+    const jugador2 = new Jugador('Jugador 2');
+
+    jugador1.robarCarta(mazo);
+    jugador2.robarCarta(mazo);
+
+    const carta1 = jugador1.mazo[0].valor;
+    const carta2 = jugador2.mazo[0].valor;
+
+    // Mostrar los resultados en el div
+    const resultadoDiv = document.getElementById('resultado');
+    resultadoDiv.innerHTML = `
+    ${jugador1.nombre} robo: ${jugador1.mazo[0].valor} de ${jugador1.mazo[0].palo}<br>
+    ${jugador2.nombre} robo: ${jugador2.mazo[0].valor} de ${jugador2.mazo[0].palo}<br>
+    ${(carta1 > carta2) ? jugador1.nombre : (carta2 > carta1) ? jugador2.nombre : 'Empate'}
+    gano!
+    `;
+  </script>
+</body>
+</html>
